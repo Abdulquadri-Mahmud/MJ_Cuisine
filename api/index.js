@@ -1,24 +1,23 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import userAuthRoute from './routes/user.auth.routes.js'
+import userAuthRoutes from './routes/user.routes.js';
 
 dotenv.config();
 
 const app = express();
 
-app.use(express.json());
+// app.use(express.json());
 
 const port = 3000;
 
 mongoose.connect(process.env.db).then(() => {
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
     console.log('Database connected successfully');
 }).catch((error) => {
     console.log('Error while connecting to database');
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
-
-app.use('/api/auth', userAuthRoute);
+app.use('/api/auth',userAuthRoutes);
